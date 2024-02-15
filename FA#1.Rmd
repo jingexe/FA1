@@ -1,0 +1,54 @@
+---
+title: "FA#1"
+output: html_document
+date: "2024-02-13"
+---
+1.Choose one of the columns of the dataset and make at least two plots showing its distribution (choose from ECDF, quantile, histogram, density estimate). What does the plot tell you about the distribution of the values in that column?
+```{r}
+library(ggplot2)
+library(readr)
+
+file_path <- "D:/desktop/cytof_one_experiment.csv" 
+data <- read_csv(file_path)
+
+ggplot(data, aes(x = CD56)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  ggtitle("Histogram of CD56 Expression Levels") +
+  xlab("CD56 Expression Level") +
+  ylab("Frequency")
+
+ggplot(data, aes(x = CD56)) +
+  geom_density(fill = "skyblue", alpha = 0.5) +
+  ggtitle("Density Estimate of CD56 Expression Levels") +
+  xlab("CD56 Expression Level") +
+  ylab("Density")
+
+```
+
+Histogram of CD56 Expression Levels: This plot shows the frequency distribution of "CD56" values across the dataset. The x-axis represents the expression levels of CD56, and the y-axis represents the frequency of observations within each bin. The distribution appears to be somewhat skewed to the right, indicating that most cells have moderate to high levels of CD56 expression, with a tail extending towards higher expression levels. This skewness suggests variability in CD56 expression among the cells analyzed.
+
+Density Estimate of CD56 Expression Levels: This plot provides a smooth estimation of the probability density function of the CD56 expression levels. Like the histogram, it shows that the distribution of CD56 expression levels is skewed towards higher values, with a peak in the moderate expression range and a long tail towards higher expression levels. This visualization helps to infer the distribution's shape and the probability of observing certain ranges of CD56 expression levels more clearly.
+
+
+2.Choose any two of the columns of the dataset and make a Q-Q plot comparing the distributions. What does the Q-Q plot tell you about similarities or differences between the distributions of the values in the two columns?
+
+```{r}
+library(readr)
+
+file_path <- "D:/desktop/cytof_one_experiment.csv"
+data <- read_csv(file_path)
+
+x <- data$CD56
+y <- data$NKG2D
+
+qqplot(x, y, main = "Q-Q Plot of CD56 vs. NKG2D", xlab = "Quantiles of CD56", ylab = "Quantiles of NKG2D")
+abline(0, 1, col = "red")  
+
+
+
+```
+Interpretation of the Q-Q Plot
+A Q-Q plot compares the quantiles of two distributions by plotting their quantiles against each other. If the two distributions are similar, the points in the Q-Q plot will lie approximately along a straight line.
+
+If the points deviate from the straight line significantly, it indicates that the distributions differ in some way. This deviation could manifest as points curving away from the line at either end, indicating differences in the tails of the distributions, or a slope change, indicating differences in dispersion or central tendency.
+Points lying above the line suggest that the distribution on the y-axis has higher quantiles than the distribution on the x-axis at those points, and vice versa for points lying below the line.
